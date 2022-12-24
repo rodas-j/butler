@@ -1,5 +1,6 @@
 import re
 
+
 def get_columns_from_text(text):
     regex = r"\d. (.*)"
     extract = re.findall(regex, text)
@@ -7,12 +8,14 @@ def get_columns_from_text(text):
     extract = [x.strip() for x in extract]
     return extract
 
+
 def get_properties_from_details(text):
     regex = r"(.+): (.*)"
     extract = re.findall(regex, text)
     # strip whitespace
     extract = [(x[0].strip(), x[1].strip()) for x in extract]
     return extract
+
 
 def main():
     text = """
@@ -28,6 +31,7 @@ def main():
 10. Resources Used
 """
     print(", ".join(get_columns_from_text(text)))
-    
+
+
 if __name__ == "__main__":
     main()

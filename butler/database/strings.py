@@ -46,10 +46,12 @@ Last edited time: Timestamps an item's last edit.
 Last edited by: Records the user who edited the item last.
 """
 
+
 def main():
     # list the basic property names
     names = [x[0] for x in get_properties_from_details(DATABASE_BASIC_PROPERTIES)]
     print(", ".join(names))
-    
+
+
 if __name__ == "__main__":
     main()

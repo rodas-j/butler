@@ -25,7 +25,9 @@ properties_chain = LLMChain(llm=llm, prompt=prompt_template)
 
 # # This is the overall chain where we run these two chains in sequence.
 from langchain.chains import SimpleSequentialChain
+
 overall_chain = SimpleSequentialChain(chains=[properties_chain], verbose=True)
 
-review = overall_chain.run("I need to create a 2023 goal tracker table. I need to have a status column please")
-
+review = overall_chain.run(
+    "I need to create a 2023 goal tracker table. I need to have a status column please"
+)
