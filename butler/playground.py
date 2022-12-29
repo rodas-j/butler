@@ -44,8 +44,3 @@ database_properties_string = """1. Goal
 5. Notes"""
 database_properties = get_columns_from_text(database_properties_string)
 title = database_properties[0].strip()
-print(title)
-# database_types_string = property_type_chain(
-#     {"types": types, "Title": title, "result": database_properties_string}
-# )
-# print(database_types_string)

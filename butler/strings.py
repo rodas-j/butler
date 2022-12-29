@@ -1,5 +1,5 @@
 # DATABASES
-from utils import get_properties_from_details
+from butler.utils import get_properties_from_details
 
 
 DATABASE_BASIC_PROPERTIES = """
