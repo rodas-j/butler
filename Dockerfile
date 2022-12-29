@@ -14,4 +14,4 @@ RUN poetry install
 # add app
 COPY . .
 # run server
-CMD exec poetry run gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
+CMD exec poetry run gunicorn --bind :8080 --workers 1 --threads 8 --timeout 0 main:app
