@@ -14,4 +14,4 @@ RUN poetry install
 # add app
 COPY . .
 # run server
-CMD ["poetry", "run", "python", "app.py"]
+CMD exec poetry run gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
