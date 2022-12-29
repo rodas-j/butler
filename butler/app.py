@@ -136,7 +136,10 @@ def queryOpenAI(message: str):
     )
     result_types.insert(0, "Title")
     result_types = list(
-        map(lambda x: propertyNotation[x.lower().split(",")[0]], result_types)
+        map(
+            lambda x: propertyNotation.get(x.lower().split(",")[0], "multi_select"),
+            result_types,
+        )
     )
 
     assert len(database_properties) == len(result_types)
@@ -145,27 +148,15 @@ def queryOpenAI(message: str):
 
     tuples = list(tuples)
 
-    template = """{statement}
-    
-    What is the best information for the following
-    Title:
-    Description:
-    Emoji:"""
-
-    prompt_template = PromptTemplate(input_variables=["statement"], template=template)
-    chain = LLMChain(llm=llm, prompt=prompt_template)
-
-    overall_chain = SimpleSequentialChain(chains=[chain], verbose=True)
-
-    database_description = overall_chain.run(message)
+    database_description = handleDetails(message, llm)
 
     information_dictionary = dict(get_properties_from_details(database_description))
 
-    assert information_dictionary.keys() == {
-        "Title",
-        "Description",
-        "Emoji",
-    }, information_dictionary
+    # assert information_dictionary.keys() == {
+    #     "Title",
+    #     "Description",
+    #     "Emoji",
+    # }, information_dictionary
 
     filtered_tuples = list(
         filter(
@@ -181,14 +172,33 @@ def queryOpenAI(message: str):
     handleOptions(js_objects, filtered_tuples, database_properties_string, llm)
 
     js_response = {
-        "title": information_dictionary["Title"],
-        "description": information_dictionary["Description"],
-        "icon": {"type": "emoji", "emoji": information_dictionary["Emoji"]},
+        "title": information_dictionary.get("Title", "Untitled"),
+        "description": information_dictionary.get("Description", "No description"),
+        "icon": {
+            "type": "emoji",
+            "emoji": information_dictionary.get("Emoji", "default"),
+        },
         "properties": js_objects,
     }
     print(js_response)
 
     return js_response
+
+
+def handleDetails(message, llm):
+    template = """{statement}
+    What is the best information for the following
+    Title:
+    Description:
+    Emoji:"""
+
+    prompt_template = PromptTemplate(input_variables=["statement"], template=template)
+    chain = LLMChain(llm=llm, prompt=prompt_template)
+
+    overall_chain = SimpleSequentialChain(chains=[chain], verbose=True)
+
+    database_description = overall_chain.run(message)
+    return database_description
 
 
 if __name__ == "__main__":
