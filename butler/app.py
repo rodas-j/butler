@@ -1,3 +1,4 @@
+import datetime
 from langchain.llms import OpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
@@ -172,6 +173,7 @@ def queryOpenAI(message: str):
     handleOptions(js_objects, filtered_tuples, database_properties_string, llm)
 
     js_response = {
+        "prompt": message,
         "title": information_dictionary.get("Title", "Untitled"),
         "description": information_dictionary.get("Description", "No description"),
         "icon": {
@@ -180,7 +182,13 @@ def queryOpenAI(message: str):
         },
         "properties": js_objects,
     }
-    print(js_response)
+
+    # save json to file for testing
+    import json
+
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    with open(f"butler/database/logs/{timestamp}.json", "w") as f:
+        json.dump(js_response, f, indent=4, ensure_ascii=False)
 
     return js_response
 
