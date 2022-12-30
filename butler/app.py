@@ -184,11 +184,11 @@ def queryOpenAI(message: str):
     }
 
     # save json to file for testing
-    import json
+    # import json
 
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    with open(f"butler/database/logs/{timestamp}.json", "w") as f:
-        json.dump(js_response, f, indent=4, ensure_ascii=False)
+    # timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    # with open(f"butler/database/logs/{timestamp}.json", "w") as f:
+    #     json.dump(js_response, f, indent=4, ensure_ascii=False)
 
     return js_response
 
