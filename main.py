@@ -1,10 +1,16 @@
 import os
+import sys
 from flask import Flask, request
 from butler.app import queryOpenAI
 from butler.database.database import DatabaseChain
 from butler.database.api import generate_response
 
 app = Flask(__name__)
+
+
+logs_file_path = "./app.log"
+
+sys.stdout = open(logs_file_path, "w", buffering=1, encoding="utf-8")
 
 
 @app.route("/")
