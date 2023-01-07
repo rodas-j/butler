@@ -734,14 +734,14 @@ test = ["ipykernel", "pre-commit", "pytest", "pytest-cov", "pytest-timeout"]
 
 [[package]]
 name = "langchain"
-version = "0.0.43"
+version = "0.0.58"
 description = "Building applications with LLMs through composability"
 category = "main"
 optional = false
 python-versions = ">=3.8.1,<4.0"
 files = [
-    {file = "langchain-0.0.43-py3-none-any.whl", hash = "sha256:5035f088f6ec1fa83e9db82ee33f0c138cdb49a64306896d762341c9a9d49da8"},
-    {file = "langchain-0.0.43.tar.gz", hash = "sha256:610bbe3d0bd2d071883777d43d0c2f4cf4206351955e7fb28b7fe9fbdd85ae23"},
+    {file = "langchain-0.0.58-py3-none-any.whl", hash = "sha256:9fba6c033ae8e591baf01128def8076854bdf2fe5c4ec6416abff4ecd7e68c43"},
+    {file = "langchain-0.0.58.tar.gz", hash = "sha256:5dab6412d44f116b33dcef3168fbb90d90fef56cac5c6dd7060836677402c06e"},
 ]
 
 [package.dependencies]
@@ -752,7 +752,7 @@ requests = ">=2,<3"
 SQLAlchemy = ">=1,<2"
 
 [package.extras]
-all = ["beautifulsoup4 (>=4,<5)", "elasticsearch (>=8,<9)", "faiss-cpu (>=1,<2)", "jinja2 (>=3,<4)", "manifest-ml (>=0.0.1,<0.0.2)", "nltk (>=3,<4)", "pinecone-client (>=2,<3)", "spacy (>=3,<4)", "tiktoken (>=0,<1)", "torch (>=1,<2)", "transformers (>=4,<5)", "weaviate-client (>=3,<4)", "wikipedia (>=1,<2)"]
+all = ["beautifulsoup4 (>=4,<5)", "elasticsearch (>=8,<9)", "faiss-cpu (>=1,<2)", "google-api-python-client (==2.70.0)", "jinja2 (>=3,<4)", "manifest-ml (>=0.0.1,<0.0.2)", "nltk (>=3,<4)", "pinecone-client (>=2,<3)", "redis (>=4,<5)", "spacy (>=3,<4)", "tiktoken (>=0,<1)", "torch (>=1,<2)", "transformers (>=4,<5)", "weaviate-client (>=3,<4)", "wikipedia (>=1,<2)"]
 llms = ["manifest-ml (>=0.0.1,<0.0.2)", "torch (>=1,<2)", "transformers (>=4,<5)"]
 
 [[package]]
@@ -1814,4 +1814,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "c18b939b76ca4710e892067a89cdaf2bc2006c9a5ae33fcde5ddab149ce18ec4"
+content-hash = "6969a1b59ed29914b47a658ef46ee72350490fd6fe7a02158cf0af18bd2e8b30"
