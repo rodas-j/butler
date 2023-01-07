@@ -1,0 +1,24 @@
+
+
+[1m> Entering new SequentialChain chain...[0m
+[1mChain 0[0m:
+{'result': '\n1. Medication Name \n2. Dosage \n3. Frequency \n4. Start Date \n5. End Date \n6. Notes'}
+
+[1mChain 1[0m:
+{'Title': 'Medication Name'}
+
+[1mChain 2[0m:
+{'property_types': '\n        2. Dosage: Text\n        \n        3. Frequency: Select\n        \n        4. Start Date: Date\n        \n        5. End Date: Date\n        \n        6. Notes: Text'}
+
+[1mChain 3[0m:
+{'prop': 'Frequency', 'properties': 'Frequency'}
+
+[1mChain 4[0m:
+{'options': ' Every 12 hours, Every day, Every other day, Twice a week, Once a month'}
+
+[1mChain 5[0m:
+{'details': '\n\nTitle: Medication Tracker\nDescription: A database to keep track of medications, their dosages, frequencies, start and end dates and other notes.\nEmoji: 💊'}
+
+
+[1m> Finished chain.[0m
+it's working
