@@ -4,6 +4,7 @@ from flask import Flask, request
 from butler.app import queryOpenAI
 from butler.database.database import DatabaseChain
 from butler.database.api import generate_response
+from butler.firebase import pushToFirebase
 
 app = Flask(__name__)
 
@@ -31,7 +32,7 @@ def beta_database():
     message = request.json["message"]
     output = DatabaseChain(prompt=message)
     res = generate_response(output)
-    print("it's working")
+    pushToFirebase(output.output)
     return res
 
 

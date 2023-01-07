@@ -69,6 +69,7 @@ class DatabaseChain:
             )
         )
         result_types.insert(0, "Title")
+        print("result_types", result_types)
         result_types = list(
             map(
                 lambda x: propertyNotation.get(x.lower().split(",")[0], "multi_select"),
@@ -142,11 +143,13 @@ class DatabaseChain:
     def post_process(self):
         description_information = self._process_details(self.output["details"])
         self.output["table_metadata"] = description_information
+        self.output["prompt"] = self.prompt
         example_options_string = self.output.get("options", "")
         example_options_list = example_options_string.split("\n")
         options_dict = {
             self.select_multi_select_[0]: example_options_list[0].strip().split(","),
         }
+        print("options_list", example_options_list)
         for i in range(1, len(example_options_list)):
             options_dict[self.select_multi_select_[i]] = (
                 example_options_list[i].split(": ")[1].split(",")

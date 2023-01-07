@@ -1,3 +1,4 @@
+import json
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
@@ -14,4 +15,4 @@ ref = db.reference("/")
 
 
 def pushToFirebase(jsonData: dict):
-    return ref.set(jsonData)
+    return ref.push(jsonData)  # type: ignore
