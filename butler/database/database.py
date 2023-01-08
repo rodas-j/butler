@@ -246,7 +246,12 @@ class DatabaseChain:
         description_information = self._process_details(self.output["details"])
         self.output["table_metadata"] = description_information
         self.output["prompt"] = self.prompt
-        self.output["content_json"] = self._process_content(self.output["content"])
+        try:
+            self.output["content_json"] = self._process_content(self.output["content"])
+        except Exception as e:
+            logger.error(e)
+            logger.info("prompt", self.prompt)
+            self.output["content_json"] = []
         if not self.is_select_multi_select_excluded:
             self.process_options()
         self.output.update({"js_objects": self.js_objects})
