@@ -1,11 +1,12 @@
 import re
+from typing import List
 
 
 def get_columns_from_text(text):
     regex = r"\d. (.*)"
     extract = re.findall(regex, text)
     # strip whitespace
-    extract = [x.strip() for x in extract]
+    extract: List[str] = [x.strip() for x in extract]
     return extract
 
 

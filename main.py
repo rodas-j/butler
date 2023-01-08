@@ -1,5 +1,5 @@
+from logger import logger
 import os
-import sys
 from flask import Flask, request
 from butler.app import queryOpenAI
 from butler.database.database import DatabaseChain
@@ -7,11 +7,6 @@ from butler.database.api import generate_response
 from butler.firebase import pushToFirebase
 
 app = Flask(__name__)
-
-
-logs_file_path = "./app.log"
-
-sys.stdout = open(logs_file_path, "w", buffering=1, encoding="utf-8")
 
 
 @app.route("/")
@@ -32,7 +27,13 @@ def beta_database():
     message = request.json["message"]
     output = DatabaseChain(prompt=message)
     res = generate_response(output)
-    pushToFirebase(output.output)
+
+    try:
+        pushToFirebase(output.output)
+    except Exception as e:
+        logger.error(e)
+        logger.error("Failed to push to Firebase", str(output.output))
+
     return res
 
 

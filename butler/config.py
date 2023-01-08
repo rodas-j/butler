@@ -4,6 +4,7 @@ from langchain.llms import OpenAI
 llm = OpenAI(
     temperature=0.7,
     openai_api_key="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",
+    verbose=True,
 )
 
 

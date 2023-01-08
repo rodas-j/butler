@@ -11,5 +11,6 @@ def generate_response(output: DatabaseChain) -> dict:
             "emoji": output.output.get("table_metadata", {}).get("Emoji", "default"),
         },
         "properties": output.output.get("js_objects"),
+        "content": output.output.get("content_json"),
     }
     return js_reponse
