@@ -619,3 +619,100 @@ Title of the article,Authors of the article,Date of Publication,Summary of the a
 
 2023-01-08 21:24:00,449 - logger - ERROR - Error tokenizing data. C error: Expected 5 fields in line 3, saw 9
 
+2023-01-17 07:39:05,660 - logger - INFO - Added columns chain
+2023-01-17 07:39:05,661 - logger - INFO - Added options
+2023-01-17 07:39:05,662 - logger - INFO - Added content
+2023-01-17 07:39:05,662 - logger - INFO - Added details
+2023-01-17 07:39:09,629 - logger - INFO - Added property types chain
+2023-01-17 07:39:09,630 - logger - INFO - No select or multi-select properties
+2023-01-17 07:39:21,742 - logger - INFO - Built database chain
+2023-01-17 07:39:21,742 - logger - INFO - {'statement': 'test', 'types': 'Title, Text, Number, Select, Multi-select, Status, Date, Person, Files & media, Checkbox, URL, Email, Phone', 'result': '\n1. Student_ID\n2. Student_Name\n3. Test_ID\n4. Test_Name\n5. Test_Date', 'property_types': '\n        2. Student_Name: Text\n        \n        3. Test_ID: Number\n        \n        4. Test_Name: Text\n        \n        5. Test_Date: Date', 'options': '1. S123456, 2. John Doe, 3. T12345, 4. Maths Exam, 5. 15/10/2020', 'content': '1,John Smith,12345,Math,1/1/2020\n2,Jane Doe,5678,English,2/2/2020\n3,Bob Jones,9012,Science,3/3/2020\n4,Amy Williams,3456,Social Studies,4/4/2020\n5,Brandon Brown,7890,History,5/5/2020', 'details': '\n\nTitle: Test Time\nDescription: Track your test dates and scores with this database! 📚\nEmoji: 📝'}
+2023-01-17 07:39:23,877 - logger - INFO - 
+Student_ID,Student_Name,Test_ID,Test_Name,Test_Date
+1,John Smith,12345,Math,1/1/2020
+2,Jane Doe,5678,English,2/2/2020
+3,Bob Jones,9012,Science,3/3/2020
+4,Amy Williams,3456,Social Studies,4/4/2020
+5,Brandon Brown,7890,History,5/5/2020
+
+2023-01-17 07:40:04,842 - logger - INFO - Added columns chain
+2023-01-17 07:40:04,844 - logger - INFO - Added options
+2023-01-17 07:40:04,844 - logger - INFO - Added content
+2023-01-17 07:40:04,844 - logger - INFO - Added details
+2023-01-17 07:40:12,026 - logger - INFO - Added property types chain
+2023-01-17 07:40:17,040 - logger - INFO - Built database chain
+2023-01-17 07:40:17,040 - logger - INFO - {'statement': 'test', 'types': 'Title, Text, Number, Select, Multi-select, Status, Date, Person, Files & media, Checkbox, URL, Email, Phone', 'result': '\n1) test_id\n2) test_name\n3) test_type\n4) test_date\n5) test_result', 'property_types': '\n        2. test_name: Text\n        \n        3. test_type: Select\n        \n        4. test_date: Date\n        \n        5. test_result: Checkbox', 'options': ' Blood Test, Allergy Test, Vision Test, DNA Test, Hearing Test', 'content': '1,Spelling Test,Written,01/02/2020,Pass\n2,Math Test,Written,02/03/2020,Fail\n3,Hardware Test,Hands-on,03/04/2020,Pass,Fail\n4,Language Test,Written,04/05/2020,Pass\n5,Memory Test,Hands-on,05/06/2020,Pass', 'details': '\n\nTitle: Testing Time\nDescription: Keep track of your tests with this database! 🧪'}
+2023-01-17 20:50:09,021 - logger - INFO - Added columns chain
+2023-01-17 20:50:16,805 - logger - INFO - Added columns chain
+2023-01-17 20:51:05,394 - logger - INFO - Added columns chain
+2023-01-17 20:51:21,055 - logger - INFO - Added columns chain
+2023-01-17 20:51:47,723 - logger - INFO - Added columns chain
+2023-01-17 20:53:08,366 - logger - INFO - Added columns chain
+2023-01-17 20:53:40,484 - logger - INFO - Added columns chain
+2023-01-17 20:54:04,644 - logger - INFO - Added columns chain
+2023-01-17 20:54:21,557 - logger - INFO - Added columns chain
+2023-01-17 20:55:32,784 - logger - INFO - Added columns chain
+2023-01-17 20:55:57,838 - logger - INFO - Added columns chain
+2023-01-17 20:57:02,979 - logger - INFO - Added columns chain
+2023-01-17 20:57:23,770 - logger - INFO - Added columns chain
+2023-01-17 20:57:33,079 - logger - INFO - Added columns chain
+2023-01-17 20:57:45,329 - logger - INFO - Added columns chain
+2023-01-17 20:57:58,675 - logger - INFO - Added columns chain
+2023-01-17 20:58:43,126 - logger - INFO - Added columns chain
+2023-01-17 21:00:29,914 - logger - INFO - Added columns chain
+2023-01-17 21:04:44,186 - logger - INFO - Added columns chain
+2023-01-17 21:06:14,452 - logger - INFO - Added columns chain
+2023-01-17 21:06:33,182 - logger - INFO - Added columns chain
+2023-01-17 21:32:52,058 - logger - INFO - Added columns chain
+2023-01-17 21:33:15,468 - logger - INFO - Added columns chain
+2023-01-17 21:36:02,252 - logger - INFO - Added columns chain
+2023-01-17 21:44:30,356 - logger - INFO - Added columns chain
+2023-01-17 21:44:30,382 - logger - INFO - Added content
+2023-01-17 21:50:43,900 - logger - INFO - Added columns chain
+2023-01-17 21:50:43,901 - logger - INFO - Added options
+2023-01-17 21:50:43,902 - logger - INFO - Added content
+2023-01-17 21:50:43,902 - logger - INFO - Added details
+2023-01-17 21:50:49,721 - logger - INFO - Added property types chain
+2023-01-17 21:51:02,639 - logger - INFO - Built database chain
+2023-01-17 21:51:02,639 - logger - INFO - {'statement': 'I want to track my habits', 'types': 'Title, Text, Number, Select, Multi-select, Status, Date, Person, Files & media, Checkbox, URL, Email, Phone', 'result': '\n1. Name of habit \n2. Date/time of occurrence \n3. Duration of habit \n4. Frequency of habit \n5. Rating of habit (on a scale of 1 to 10) \n6. Notes about habit \n7. Location of habit \n8. Category of habit', 'property_types': '\n        2. Date/time of occurrence: Date\n        \n        3. Duration of habit: Number\n        \n        4. Frequency of habit: Select\n        \n        5. Rating of habit (on a scale of 1 to 10): Select\n        \n        6. Notes about habit: Text\n        \n        7. Location of habit: Text\n        \n        8. Category of habit: Select', 'options': ' Daily, Weekly, Monthly, Bi-Monthly, Quarterly\nRating of habit: 1, 5, 7, 9, 10\nCategory of habit: Physical Health, Mental Health, Spiritual Health, Social Health, Financial Health', 'content': 'Meditation,05/01/2021,30 minutes,Daily,10,Helped me relax and focus,Home,Mindfulness\nJogging,05/02/2021,45 minutes,3 times a week,7,Feeling energized,Park,Fitness\nReading,05/03/2021,1 hour,Weekly,8,Learned a few new things,Library,Education\nCooking,05/04/2021,45 minutes,Weekly,9,Made a delicious meal,Kitchen,Hobbies\nYoga,05/05/2021,30 minutes,3 times a week,10,Gave me a great stretch,Yoga Studio,Fitness', 'details': '\n\nTitle: Habit Tracker\nDescription: Track your habits and measure your progress.\nEmoji: 📊'}
+2023-01-17 21:51:05,475 - logger - INFO - 
+Name of habit,Date/time of occurrence,Duration of habit,Frequency of habit,Rating of habit,Notes about habit,Location of habit,Category of habit
+Meditation,05/01/2021,30 minutes,Daily,10,Helped me relax and focus,Home,Mindfulness
+Jogging,05/02/2021,45 minutes,3 times a week,7,Feeling energized,Park,Fitness
+Reading,05/03/2021,1 hour,Weekly,8,Learned a few new things,Library,Education
+Cooking,05/04/2021,45 minutes,Weekly,9,Made a delicious meal,Kitchen,Hobbies
+Yoga,05/05/2021,30 minutes,3 times a week,10,Gave me a great stretch,Yoga Studio,Fitness
+
+2023-01-17 21:51:05,719 - logger - ERROR - Invalid data; couldn't parse JSON object, array, or value.
+2023-01-17 22:00:07,352 - logger - INFO - Added columns chain
+2023-01-17 22:00:07,353 - logger - INFO - Added options
+2023-01-17 22:00:07,353 - logger - INFO - Added content
+2023-01-17 22:00:07,353 - logger - INFO - Added details
+2023-01-17 22:00:11,052 - logger - INFO - Added property types chain
+2023-01-17 22:00:16,687 - logger - INFO - Built database chain
+2023-01-17 22:00:16,687 - logger - INFO - {'statement': 'I want to track my habits', 'types': 'Title, Text, Number, Select, Multi-select, Status, Date, Person, Files & media, Checkbox, URL, Email, Phone', 'result': '\n1. Habit Name\n2. Date Started\n3. Frequency \n4. Progress (Number, Percentage, etc.) \n5. Notes \n6. Reminder (Time, Date, Location)', 'property_types': '\n        2. Date Started: Date\n        \n        3. Frequency: Select\n        \n        4. Progress: Number\n        \n        5. Notes: Text\n        \n        6. Reminder: Multi-Select', 'options': ' Daily, Weekly, Bi-Weekly, Monthly, Yearly \n        Reminder: 8am, Monday, Bedroom', 'content': 'Meditation,July 1,Daily,3,Feel calmer and more relaxed,E-mail,Text\nDrinking 8 Glasses of Water,July 1,Daily,7,Feeling more hydrated,E-mail,Calendar App\nDaily Exercise,July 1,3x a Week,2,More energy and better focus,Text,Calendar App\nReading,July 1,Daily,1,Gaining more knowledge,E-mail,Text\nJournaling,July 1,5x a Week,4,Helping to process emotions,E-mail,Calendar App', 'details': '\n\nTitle: Habit Tracking\nDescription: Track your habits and measure your progress\nEmoji: 📊'}
+2023-01-17 22:00:17,562 - logger - INFO - 
+Habit Name,Date Started,Frequency,Progress,Notes,Reminder
+Meditation,July 1,Daily,3,Feel calmer and more relaxed,E-mail,Text
+Drinking 8 Glasses of Water,July 1,Daily,7,Feeling more hydrated,E-mail,Calendar App
+Daily Exercise,July 1,3x a Week,2,More energy and better focus,Text,Calendar App
+Reading,July 1,Daily,1,Gaining more knowledge,E-mail,Text
+Journaling,July 1,5x a Week,4,Helping to process emotions,E-mail,Calendar App
+
+2023-01-17 22:00:17,678 - logger - ERROR - Unknown error while making a remote service call: Out of range float values are not JSON compliant
+2023-01-18 06:41:52,177 - logger - INFO - Added columns chain
+2023-01-18 06:41:52,178 - logger - INFO - Added options
+2023-01-18 06:41:52,178 - logger - INFO - Added content
+2023-01-18 06:41:52,178 - logger - INFO - Added details
+2023-01-18 06:41:56,731 - logger - INFO - Added property types chain
+2023-01-18 06:41:56,731 - logger - INFO - No select or multi-select properties
+2023-01-18 06:42:06,003 - logger - INFO - Built database chain
+2023-01-18 06:42:06,006 - logger - INFO - {'statement': "I want to take class notes in this spring semester. I'm learning math and sociology.", 'types': 'Title, Text, Number, Select, Multi-select, Status, Date, Person, Files & media, Checkbox, URL, Email, Phone', 'result': '\n1. Subject (math, sociology)\n2. Date \n3. Topic \n4. Notes', 'property_types': '\n        2. Date: Date\n        \n        3. Topic: Text\n        \n        4. Notes: Text', 'options': ' Math, 10/10/2020, Linear Algebra, 1. Matrices, 2. Vectors, 3. Linear Transformations, 4. Polynomials, 5. Inverse Matrices.', 'content': 'Math,7/20/20,Linear Algebra,Be sure to review the fundamentals of matrix multiplication\nSociology,7/21/20,Social Inequality,Focus on the causes and effects of inequality\nMath,7/22/20,Calculus,Cover basic integration techniques\nSociology,7/23/20,Gender Roles,Explore how gender roles have changed over time\nMath,7/24/20,Statistics,Focus on the concept of standard deviation', 'details': '\n\nTitle: Spring Semester Class Notes \nDescription: A database of notes for math and sociology classes taken during the spring semester.\nEmoji: 📝 📊 📚'}
+2023-01-18 06:42:12,615 - logger - INFO - 
+Subject,Date,Topic,Notes
+Math,7/20/20,Linear Algebra,Be sure to review the fundamentals of matrix multiplication
+Sociology,7/21/20,Social Inequality,Focus on the causes and effects of inequality
+Math,7/22/20,Calculus,Cover basic integration techniques
+Sociology,7/23/20,Gender Roles,Explore how gender roles have changed over time
+Math,7/24/20,Statistics,Focus on the concept of standard deviation
+

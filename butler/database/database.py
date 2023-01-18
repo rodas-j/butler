@@ -69,7 +69,7 @@ class DatabaseChain:
         self.output_variables.append("result")
         logger.info("Added columns chain")
 
-    def _remove_parentesis(self, s: str):
+    def remove_parenthesis(self, s: str):
         import re
 
         return re.sub(r"\(.*\)", "", s).strip()
@@ -78,7 +78,7 @@ class DatabaseChain:
         self.columns: List[str] = get_columns_from_text(inputs["result"])
 
         first_column = self.columns[0]
-        self.columns = list(map(self._remove_parentesis, self.columns))
+        self.columns = list(map(self.remove_parenthesis, self.columns))
         return {"Title": first_column, "columns": ",".join(self.columns)}
 
     def _transform_property_type(self, inputs: dict) -> dict:
@@ -99,7 +99,7 @@ class DatabaseChain:
 
         self.database_properties = get_columns_from_text(inputs["result"])
         self.database_properties = list(
-            map(self._remove_parentesis, self.database_properties)
+            map(self.remove_parenthesis, self.database_properties)
         )
 
         assert len(self.database_properties) == len(result_types)
@@ -314,9 +314,6 @@ class DatabaseChain:
         self.chains.append(details_chain)
         self.output_variables.append("details")
         logger.info("Added details")
-
-    def compile(self):
-        pass
 
 
 if __name__ == "__main__":
