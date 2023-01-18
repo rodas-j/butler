@@ -716,3 +716,18 @@ Math,7/22/20,Calculus,Cover basic integration techniques
 Sociology,7/23/20,Gender Roles,Explore how gender roles have changed over time
 Math,7/24/20,Statistics,Focus on the concept of standard deviation
 
+2023-01-18 07:34:02,677 - logger - INFO - Added columns chain
+2023-01-18 07:34:02,680 - logger - INFO - Added options
+2023-01-18 07:34:02,680 - logger - INFO - Added content
+2023-01-18 07:34:02,680 - logger - INFO - Added details
+2023-01-18 07:34:07,274 - logger - INFO - Added property types chain
+2023-01-18 07:34:13,176 - logger - INFO - Built database chain
+2023-01-18 07:34:13,176 - logger - INFO - {'statement': 'I want to track my habits', 'types': 'Title, Text, Number, Select, Multi-select, Status, Date, Person, Files & media, Checkbox, URL, Email, Phone', 'result': '\n1. Habit name\n2. Date started\n3. Frequency (daily/weekly/monthly/etc.)\n4. Duration (time spent on the habit)\n5. Notes (any additional information)\n6. Completed (boolean to indicate if the habit was completed)', 'property_types': '\n        2. Date started: Date\n        \n        3. Frequency: Select\n        \n        4. Duration: Number\n        \n        5. Notes: Text\n        \n        6. Completed: Checkbox', 'options': ' Daily, Weekly, Bi-Weekly, Monthly, Yearly', 'content': '"Meditating","02/15/2021","Daily","10 minutes","Helps with stress relief","Yes"\n"Walking","03/01/2021","3 times a week","20 minutes","Good for physical activity","Yes"\n"Cooking","03/15/2021","Weekly","30 minutes","Learn new recipes","No"\n"Reading","04/01/2021","Daily","30 minutes","Good way to learn new things","No"\n"Journaling","04/15/2021","Daily","5 minutes","Great way to reflect","Yes"', 'details': '\n\nTitle: Track Your Habits\nDescription: Keep track of all your habits and progress with this simple database.\nEmoji: 📊'}
+2023-01-18 07:34:13,795 - logger - INFO - 
+Habit name,Date started,Frequency,Duration,Notes,Completed
+"Meditating","02/15/2021","Daily","10 minutes","Helps with stress relief","Yes"
+"Walking","03/01/2021","3 times a week","20 minutes","Good for physical activity","Yes"
+"Cooking","03/15/2021","Weekly","30 minutes","Learn new recipes","No"
+"Reading","04/01/2021","Daily","30 minutes","Good way to learn new things","No"
+"Journaling","04/15/2021","Daily","5 minutes","Great way to reflect","Yes"
+
