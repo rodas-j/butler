@@ -3,8 +3,10 @@
 from langchain import LLMChain, PromptTemplate
 from langchain.chains import SequentialChain, TransformChain
 from butler.config import llm, propertyNotation
-from typing import List
+from typing import Any, List, Tuple
 from butler.utils import get_columns_from_text, get_properties_from_details
+from logger import logger
+
 
 types = "Title, Text, Number, Select, Multi-select, Status, Date, Person, Files & media, Checkbox, URL, Email, Phone"
 
@@ -12,9 +14,11 @@ types = "Title, Text, Number, Select, Multi-select, Status, Date, Person, Files 
 class DatabaseChain:
     def __init__(self, prompt):
         self.prompt = prompt
+        self.is_select_multi_select_excluded = False
         self.database_properties: List
         self.tuples: List[str]
         self.chains: List = []
+        self.js_objects = []
         self.input_variables: List[str] = ["statement", "types"]
         self.output_variables: List[str] = []
         self.output: dict = {}
@@ -23,7 +27,9 @@ class DatabaseChain:
     def build(self):
         self.add_columns()
         self.add_property_types()
-        self.add_options()
+        if not self.is_select_multi_select_excluded:
+            self.add_options()
+
         self.add_content()
         self.add_details()
 
@@ -40,6 +46,12 @@ class DatabaseChain:
                 "types": types,
             }
         )
+        logger.info("Built database chain")
+        # log the output as a yaml string
+        # logger.info(yaml.dump(self.output))
+        logger.info(self.output)
+        ## wrap post process in a try catch
+
         self.post_process()
 
     def add_columns(self):
@@ -55,11 +67,19 @@ class DatabaseChain:
         )
         self.chains.append(self.columns_chain)
         self.output_variables.append("result")
+        logger.info("Added columns chain")
+
+    def remove_parenthesis(self, s: str):
+        import re
+
+        return re.sub(r"\(.*\)", "", s).strip()
 
     def _transform_func(self, inputs: dict) -> dict:
-        columns = get_columns_from_text(inputs["result"])
-        first_column = columns[0]
-        return {"Title": first_column}
+        self.columns: List[str] = get_columns_from_text(inputs["result"])
+
+        first_column = self.columns[0]
+        self.columns = list(map(self.remove_parenthesis, self.columns))
+        return {"Title": first_column, "columns": ",".join(self.columns)}
 
     def _transform_property_type(self, inputs: dict) -> dict:
         result_types = list(
@@ -69,6 +89,7 @@ class DatabaseChain:
             )
         )
         result_types.insert(0, "Title")
+
         result_types = list(
             map(
                 lambda x: propertyNotation.get(x.lower().split(",")[0], "multi_select"),
@@ -77,25 +98,34 @@ class DatabaseChain:
         )
 
         self.database_properties = get_columns_from_text(inputs["result"])
+        self.database_properties = list(
+            map(self.remove_parenthesis, self.database_properties)
+        )
 
         assert len(self.database_properties) == len(result_types)
 
         tuples = zip(self.database_properties, result_types)
 
-        tuples = list(tuples)
+        tuples_list: List[Tuple[Any, Any]] = list(tuples)
 
         self.filtered_tuples = list(
             filter(
                 lambda x: propertyNotation[x[1].lower()] in ["select", "multi_select"],
-                tuples,
+                tuples_list,
             )
         )
 
         self.select_multi_select_ = list(map(lambda x: x[0], self.filtered_tuples))
 
-        self.js_objects = []
-        for tup in tuples:
+        for tup in tuples_list:
             self.js_objects.append({"name": tup[0], "type": tup[1]})
+        logger.info("Added property types chain")
+
+        if len(self.select_multi_select_) == 0:
+            self.is_select_multi_select_excluded = True
+            logger.info("No select or multi-select properties")
+            return {"prop": "", "properties": ""}
+
         return {
             "prop": self.select_multi_select_[0],
             "properties": ", ".join(self.select_multi_select_),
@@ -105,7 +135,7 @@ class DatabaseChain:
 
         self.columns_transform_chain = TransformChain(
             input_variables=["result"],
-            output_variables=["Title"],
+            output_variables=["Title", "columns"],
             transform=self._transform_func,
         )
 
@@ -134,22 +164,55 @@ class DatabaseChain:
             output_variables=["prop", "properties"],
             transform=self._transform_property_type,
         )
-        self.chains.append(self.property_type_transform_chain)
+        if not self.is_select_multi_select_excluded:
+            self.chains.append(self.property_type_transform_chain)
 
     def _process_details(self, details):
         return dict(get_properties_from_details(details))
 
-    def post_process(self):
-        description_information = self._process_details(self.output["details"])
-        self.output["table_metadata"] = description_information
-        example_options_string = self.output.get("options", "")
-        example_options_list = example_options_string.split("\n")
+    def _process_content(self, content: str):
+        from io import StringIO
+        import pandas as pd
+
+        overall_csv = ",".join(self.columns).strip() + "\n" + content.strip()
+        log_csv = "\n" + str(overall_csv) + "\n"
+        logger.info(log_csv)
+
+        table = pd.read_csv(StringIO(overall_csv))
+
+        # change NaN to empty string
+        table = table.fillna("")
+
+        # strip whitespace
+        table = table.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+
+        date_columns = list(filter(lambda x: "date" in x.lower(), table.columns))
+        for column in date_columns:
+            try:
+                table[column] = pd.to_datetime(table[column]).dt.strftime("%Y-%m-%d")
+            except Exception as e:
+                print("error", e)
+                print("column", column)
+                table[column] = pd.to_datetime(
+                    table[column], errors="coerce"
+                ).dt.strftime("%Y-%m-%d")
+        return table.to_dict("records")
+
+    def process_options(self):
+        example_options_string: str = self.output.get("options", "")
+        example_options_list: List[str] = example_options_string.split("\n")
         options_dict = {
             self.select_multi_select_[0]: example_options_list[0].strip().split(","),
         }
-        for i in range(1, len(example_options_list)):
+
+        assert len(example_options_list) == len(
+            self.select_multi_select_
+        ), f"Contents of options list: {example_options_list} and select_multi_select_: {self.select_multi_select_}"
+        for i in range(
+            1, len(list(zip(example_options_list, self.select_multi_select_)))
+        ):
             options_dict[self.select_multi_select_[i]] = (
-                example_options_list[i].split(": ")[1].split(",")
+                example_options_list[i].split(": ")[1].strip().split(",")
             )
         import random
 
@@ -178,6 +241,19 @@ class DatabaseChain:
                     )
                 )
                 obj["options"] = options_list
+
+    def post_process(self):
+        description_information = self._process_details(self.output["details"])
+        self.output["table_metadata"] = description_information
+        self.output["prompt"] = self.prompt
+        try:
+            self.output["content_json"] = self._process_content(self.output["content"])
+        except Exception as e:
+            logger.error(e)
+            logger.info("prompt", self.prompt)
+            self.output["content_json"] = []
+        if not self.is_select_multi_select_excluded:
+            self.process_options()
         self.output.update({"js_objects": self.js_objects})
 
     def add_options(self):
@@ -198,9 +274,26 @@ class DatabaseChain:
 
         self.chains.append(self.options_chain)
         self.output_variables.append("options")
+        logger.info("Added options")
 
     def add_content(self):
-        pass
+        template = """
+        1. {Title}: Title
+        {property_types}
+        
+        Create 3 to 5 examples for the table with the columns listed above (The columns must match the ones listed above). Make it in csv format.
+        
+{columns}
+"""  # DONOT CHANGE THIS LINE
+
+        prompt_template = PromptTemplate(
+            input_variables=["Title", "property_types", "columns"], template=template
+        )
+        content_chain = LLMChain(llm=llm, prompt=prompt_template, output_key="content")
+
+        self.chains.append(content_chain)
+        self.output_variables.append("content")
+        logger.info("Added content")
 
     def add_details(self):
         template = """{statement}
@@ -220,9 +313,7 @@ class DatabaseChain:
 
         self.chains.append(details_chain)
         self.output_variables.append("details")
-
-    def compile(self):
-        pass
+        logger.info("Added details")
 
 
 if __name__ == "__main__":
