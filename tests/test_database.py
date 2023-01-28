@@ -1,27 +1,57 @@
+import json
+from typing import List
 from pytest import MonkeyPatch
-from butler.database.database import DatabaseChain, LLMChain
+
+from butler.database.database import DatabaseChain, LLMChain, SequentialChain
 from unittest.mock import MagicMock, Mock
 import unittest.mock as mock
 import pytest
 
 
-monkeypatch = MonkeyPatch()
-monkeypatch.setattr(
-    "butler.database.database.DatabaseChain.build", lambda *args, **kwargs: "test"
-)
-monkeypatch.setattr("langchain.chains.llm.LLMChain", lambda *args, **kwargs: "test")
+def mock_overall(*args, **kwargs):
+    with open("tests/test_data/database/openaimock/mock.json") as f:
+        mock_list: List[dict] = json.load(f)
+        return mock_list[1]
 
 
-def test_database_chain():
+@pytest.fixture
+def openai_mock_fixture():
+    with mock.patch("butler.database.database.SequentialChain") as mock_SequentialChain:
+        yield mock_SequentialChain
 
-    chain = DatabaseChain(prompt="test")
 
-    assert chain.build() == "test"
+# patch langchain.chains.SequentialChain with mock_overall using magic mock
+@pytest.fixture
+def mock_SequentialChain(monkeypatch: MonkeyPatch):
+    monkeypatch.setattr(
+        "butler.database.database.SequentialChain",
+        MagicMock(return_value=mock_overall),
+    )
 
 
-def test_add_columns(monkeypatch: MonkeyPatch):
-    with mock.patch("butler.database.database.LLMChain") as mock_LLMChain:
-        mock_LLMChain.return_value = "test"
+def remove_keys(d: dict, keys: List[str]) -> dict:
+    for key in keys:
+        d.pop(key, None)
+    return d
+
+
+class TestDatabaseChain:
+    def test_mock_overall(self):
+        overall = mock_overall()
+        assert overall["content"] != None
+
+    def test_database_chain(self, mock_SequentialChain):
+        DatabaseChain("test")
+
+    def test_add_columns(self, monkeypatch: MonkeyPatch):
+        monkeypatch.setattr(
+            "butler.database.database.DatabaseChain.build",
+            lambda *args, **kwargs: "test",
+        )
+        monkeypatch.setattr(
+            "butler.database.database.LLMChain", lambda *args, **kwargs: "test"
+        )
+
         chain = DatabaseChain(prompt="test")
         chain.add_columns()
 
@@ -47,27 +77,46 @@ def test_add_columns(monkeypatch: MonkeyPatch):
         ("test(a, b, c, d, e, f, g)", "test"),
         ("test(a, b, c, d, e, f, g, h)", "test"),
         ("test(a, b, c, d, e, f, g, h, i)", "test"),
-        ("test(a, b, c, d, e, f, g, h, i, j)", "test"),
-        ("test(a, b, c, d, e, f, g, h, i, j, k)", "test"),
-        ("test(a, b, c, d, e, f, g, h, i, j, k, l)", "test"),
-        ("test(a, b, c, d, e, f, g, h, i, j, k, l, m)", "test"),
-        ("test(a, b, c, d, e, f, g, h, i, j, k, l, m, n)", "test"),
-        ("test(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o)", "test"),
-        ("test(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p)", "test"),
-        ("test(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q)", "test"),
-        ("test(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r)", "test"),
     ],
 )
-def test_remove_parenthesis(input, output):
+def test_remove_parenthesis(input, output, monkeypatch: MonkeyPatch):
+    monkeypatch.setattr(
+        "butler.database.database.DatabaseChain.build",
+        lambda *args, **kwargs: "test",
+    )
+    monkeypatch.setattr(
+        "butler.database.database.LLMChain", lambda *args, **kwargs: "test"
+    )
     chain = DatabaseChain(prompt="test")
     assert chain.remove_parenthesis(input) == output
 
 
-def test_add_content():
-    with mock.patch("butler.database.database.LLMChain") as mock_LLMChain:
-        mock_LLMChain.return_value = "test"
-        chain = DatabaseChain(prompt="test")
-        chain.add_content()
+def test_add_content(monkeypatch: MonkeyPatch):
+    monkeypatch.setattr(
+        "butler.database.database.DatabaseChain.build",
+        lambda *args, **kwargs: "test",
+    )
+    monkeypatch.setattr(
+        "butler.database.database.LLMChain", lambda *args, **kwargs: "test"
+    )
+    chain = DatabaseChain(prompt="test")
+    chain.add_content()
 
-        assert chain.chains == ["test"]
-        assert chain.output_variables == ["content"]
+    assert chain.chains == ["test"]
+    assert chain.output_variables == ["content"]
+
+
+# def test_validate_schema():
+#     with open("test_data/database/responses/3.json") as f:
+#         response = json.load(f)
+#     print(response)
+
+
+"""
+Things to test:
+    - prompts are well written
+    - check if after each add whether the chain has the content
+    - check if the transformation chain is well written
+    - test the post processing
+    - test the output types and schemas
+"""

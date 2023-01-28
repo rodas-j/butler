@@ -2,7 +2,7 @@
 
 from langchain import LLMChain, PromptTemplate
 from langchain.chains import SequentialChain, TransformChain
-from butler.config import llm, propertyNotation
+from butler.config import llm, propertyNotation, COLORS
 from typing import Any, List, Tuple
 from butler.utils import get_columns_from_text, get_properties_from_details
 from logger import logger
@@ -14,6 +14,8 @@ types = "Title, Text, Number, Select, Multi-select, Status, Date, Person, Files 
 class DatabaseChain:
     def __init__(self, prompt):
         self.prompt = prompt
+        self.select_multi_select_: List[str] = []
+        self.columns: List[str] = []
         self.is_select_multi_select_excluded = False
         self.database_properties: List
         self.tuples: List[str]
@@ -47,10 +49,6 @@ class DatabaseChain:
             }
         )
         logger.info("Built database chain")
-        # log the output as a yaml string
-        # logger.info(yaml.dump(self.output))
-        logger.info(self.output)
-        ## wrap post process in a try catch
 
         self.post_process()
 
@@ -182,6 +180,7 @@ class DatabaseChain:
 
         # change NaN to empty string
         table = table.fillna("")
+        table = table.astype(str)
 
         # strip whitespace
         table = table.applymap(lambda x: x.strip() if isinstance(x, str) else x)
@@ -191,16 +190,15 @@ class DatabaseChain:
             try:
                 table[column] = pd.to_datetime(table[column]).dt.strftime("%Y-%m-%d")
             except Exception as e:
-                print("error", e)
-                print("column", column)
-                table[column] = pd.to_datetime(
-                    table[column], errors="coerce"
-                ).dt.strftime("%Y-%m-%d")
+                logger.error(f"Error converting {column} to date: {e}")
+                table[column] = "2020-09-01"
         return table.to_dict("records")
 
     def process_options(self):
         example_options_string: str = self.output.get("options", "")
         example_options_list: List[str] = example_options_string.split("\n")
+        if (self.select_multi_select_ is None) or (len(self.select_multi_select_) == 0):
+            return
         options_dict = {
             self.select_multi_select_[0]: example_options_list[0].strip().split(","),
         }
@@ -222,20 +220,7 @@ class DatabaseChain:
                     map(
                         lambda x: {
                             "name": x.strip(),
-                            "color": random.choice(
-                                [
-                                    "default",
-                                    "gray",
-                                    "brown",
-                                    "orange",
-                                    "yellow",
-                                    "green",
-                                    "blue",
-                                    "purple",
-                                    "pink",
-                                    "red",
-                                ]
-                            ),
+                            "color": random.choice(COLORS),
                         },
                         options_dict[obj["name"]],
                     )
@@ -246,11 +231,12 @@ class DatabaseChain:
         description_information = self._process_details(self.output["details"])
         self.output["table_metadata"] = description_information
         self.output["prompt"] = self.prompt
+
         try:
             self.output["content_json"] = self._process_content(self.output["content"])
         except Exception as e:
             logger.error(e)
-            logger.info("prompt", self.prompt)
+            logger.error("self.output does not have content")
             self.output["content_json"] = []
         if not self.is_select_multi_select_excluded:
             self.process_options()

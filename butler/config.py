@@ -24,4 +24,17 @@ propertyNotation = {
     "phone": "phone_number",
 }
 
+COLORS = [
+    "default",
+    "gray",
+    "brown",
+    "orange",
+    "yellow",
+    "green",
+    "blue",
+    "purple",
+    "pink",
+    "red",
+]
+
 propertyNotation.update({v: v for _, v in propertyNotation.items()})

@@ -23,4 +23,5 @@ propertyNotation = {
     "phone": "phone_number",
 }
 
+
 propertyNotation.update({v: v for _, v in propertyNotation.items()})
