@@ -3,7 +3,7 @@ import json
 
 
 def generate_response(output: DatabaseChain) -> dict:
-    print(output.output["content_json"])
+
     js_reponse = {
         "prompt": output.prompt,
         "title": output.output.get("table_metadata", {}).get("Title", "Untitled"),
@@ -13,8 +13,9 @@ def generate_response(output: DatabaseChain) -> dict:
             "emoji": output.output.get("table_metadata", {}).get("Emoji", "default"),
         },
         "properties": output.output.get("js_objects"),
-        "content": output.output.get("content_json"),
+        "content": output.output.get("content_json", []),
     }
+    validate_schema(js_reponse)
     return js_reponse
 
 

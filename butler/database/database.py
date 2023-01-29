@@ -3,7 +3,7 @@
 from langchain import LLMChain, PromptTemplate
 from langchain.chains import SequentialChain, TransformChain
 from butler.config import llm, propertyNotation, COLORS
-from typing import Any, List, Tuple
+from typing import Any, Dict, List, Tuple
 from butler.utils import get_columns_from_text, get_properties_from_details
 from logger import logger
 
@@ -197,18 +197,14 @@ class DatabaseChain:
     def process_options(self):
         example_options_string: str = self.output.get("options", "")
         example_options_list: List[str] = example_options_string.split("\n")
-        if (self.select_multi_select_ is None) or (len(self.select_multi_select_) == 0):
-            return
-        options_dict = {
-            self.select_multi_select_[0]: example_options_list[0].strip().split(","),
-        }
-
+        options_dict: Dict[str, List[str]] = {}
         assert len(example_options_list) == len(
             self.select_multi_select_
         ), f"Contents of options list: {example_options_list} and select_multi_select_: {self.select_multi_select_}"
         for i in range(
             1, len(list(zip(example_options_list, self.select_multi_select_)))
         ):
+
             options_dict[self.select_multi_select_[i]] = (
                 example_options_list[i].split(": ")[1].strip().split(",")
             )

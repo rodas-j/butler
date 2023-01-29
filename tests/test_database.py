@@ -27,6 +27,9 @@ def mock_SequentialChain(monkeypatch: MonkeyPatch):
         "butler.database.database.SequentialChain",
         MagicMock(return_value=mock_overall),
     )
+    monkeypatch.setattr(
+        "butler.database.database.DatabaseChain.build", lambda *args, **kwargs: "test"
+    )
 
 
 def remove_keys(d: dict, keys: List[str]) -> dict:
