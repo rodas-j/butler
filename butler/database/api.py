@@ -1,5 +1,6 @@
 from butler.database.database import DatabaseChain
 import json
+from logger import logger
 
 
 def generate_response(output: DatabaseChain) -> dict:
@@ -15,7 +16,11 @@ def generate_response(output: DatabaseChain) -> dict:
         "properties": output.output.get("js_objects"),
         "content": output.output.get("content_json", []),
     }
-    validate_schema(js_reponse)
+    # try:
+    #     validate_schema(js_reponse)
+    # except Exception as e:
+    #     logger.error(e)
+    #     raise Exception("Invalid response schema")
     return js_reponse
 
 

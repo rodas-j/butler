@@ -14,7 +14,12 @@ openai = "^0.25.0"
 firebase-admin = "^6.0.1"
 jsonschema = "^4.17.3"
 pytest = "^7.2.1"
+coverage = "^7.1.0"
 
+[tool.coverage.run]
+omit = [".*", "*/site-packages/*"]
+[tool.coverage.report]
+fail_under = 100
 
 [tool.poetry.group.dev.dependencies]
 openai = "^0.25.0"
@@ -28,3 +33,5 @@ mypy = "^0.991"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
