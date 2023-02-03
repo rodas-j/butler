@@ -7,5 +7,8 @@ freeze:
 dev:
 	poetry run python main.py
 
-docker:
+build-docker:
 	docker build . -f Dockerfile -t butler
+
+test-dev:
+	poetry run pytest -m "not prod"
