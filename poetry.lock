@@ -294,7 +294,7 @@ test = ["pytest"]
 name = "coverage"
 version = "7.1.0"
 description = "Code coverage measurement for Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -2734,4 +2734,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "7963574b396ed8bb89770612fcb730189567f78e24b7fc49fa219c25b7af9ad3"
+content-hash = "7bd2bc162c15b15216645560aa1395432f5df9180ad660e1e798e03358179e5d"
