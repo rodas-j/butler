@@ -11,16 +11,17 @@ cred = credentials.Certificate(
 databaseURL = "https://pybutler-default-rtdb.firebaseio.com/"
 try:
     firebase_admin.initialize_app(cred, {"databaseURL": databaseURL})
-    ref = db.reference("/database")
 except Exception as e:
     logger.error(e)
 
 
-def pullFromFirebase():
+def pullFromFirebase(ref="database"):
+    ref = db.reference("/" + ref)
     return ref.get()  # type: ignore
 
 
-def pushToFirebase(jsonData: dict):
+def pushToFirebase(jsonData: dict, ref="database"):
+    ref = db.reference("/" + ref)
     return ref.push(jsonData)  # type: ignore
 
 

@@ -13,6 +13,8 @@ gunicorn = "^20.1.0"
 openai = "^0.25.0"
 firebase-admin = "^6.0.1"
 jsonschema = "^4.17.3"
+coverage = "^7.1.0"
+
 
 [tool.coverage.run]
 omit = [".*", "*/site-packages/*", "*/tests/*", "*/__init__.py", "*/__main__.py"]

@@ -4,6 +4,7 @@ from langchain import LLMChain, PromptTemplate
 from langchain.chains import SequentialChain, TransformChain
 from butler.config import llm, propertyNotation, COLORS
 from typing import Any, Dict, List, Tuple
+from butler.firebase import pushToFirebase
 from butler.utils import get_columns_from_text, get_properties_from_details
 from logger import logger
 
@@ -49,6 +50,8 @@ class DatabaseChain:
             }
         )
         logger.info("Built database chain")
+
+        pushToFirebase(self.output, ref="database/openai_responses")
 
         self.post_process()
 
