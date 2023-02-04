@@ -4,7 +4,12 @@ from flask import Flask, request
 from butler.app import queryOpenAI
 from butler.database.database import DatabaseChain
 from butler.database.api import generate_response
-from butler.firebase import pushToFirebase
+from butler.firebase import FirebaseError, pushToFirebase
+
+
+class DatabaseError(Exception):
+    pass
+
 
 app = Flask(__name__)
 
@@ -24,15 +29,26 @@ def database():
 
 @app.route("/beta/database", methods=["POST"])
 def beta_database():
-    message = request.json["message"]
-    output = DatabaseChain(prompt=message)
-    res = generate_response(output)
+
+    try:
+
+        message = request.json["message"]
+        output = DatabaseChain(prompt=message)
+        res = generate_response(output)
+
+    except KeyError as e:
+        logger.error(e)
+        logger.error("Could not find message in request")
+        return {"error": "Could not find message in request"}, 400
+    except Exception as e:
+        logger.error(e)
+        return {"error": "Could not generate response"}, 500
 
     try:
         pushToFirebase(output.output)
-    except Exception as e:
+    except FirebaseError as e:
         logger.error(e)
-        logger.error("Failed to push to Firebase", str(output.output))
+        logger.error("Could not push to Firebase")
 
     return res
 

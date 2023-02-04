@@ -15,6 +15,7 @@ def generate_response(output: DatabaseChain) -> dict:
         },
         "properties": output.output.get("js_objects"),
         "content": output.output.get("content_json", []),
+        "status": "success",
     }
     # try:
     #     validate_schema(js_reponse)
