@@ -80,7 +80,7 @@ class DatabaseChain:
 
         first_column = self.columns[0]
         self.columns = list(map(self.remove_parenthesis, self.columns))
-        return {"Title": first_column, "columns": ",".join(self.columns)}
+        return {"Title": first_column, "columns": "|".join(self.columns)}
 
     def _transform_property_type(self, inputs: dict) -> dict:
         result_types = list(
@@ -115,6 +115,8 @@ class DatabaseChain:
                 tuples_list,
             )
         )
+
+        ## Create a list of properties that are select or multi-select
 
         self.select_multi_select_ = list(map(lambda x: x[0], self.filtered_tuples))
 
@@ -171,21 +173,17 @@ class DatabaseChain:
     def _process_details(self, details):
         return dict(get_properties_from_details(details))
 
-    def _process_content(self, content: str):
+    def process_content(self, content: str):
         from io import StringIO
         import pandas as pd
 
-        overall_csv = ",".join(self.columns).strip() + "\n" + content.strip()
+        overall_csv = "|".join(self.columns).strip() + "\n" + content.strip()
         log_csv = "\n" + str(overall_csv) + "\n"
         logger.info(log_csv)
 
-        table = pd.read_csv(StringIO(overall_csv))
+        table = pd.read_csv(StringIO(overall_csv), delimiter="|")
 
-        # change NaN to empty string
-        table = table.fillna("")
-        table = table.astype(str)
-
-        # strip whitespace
+        # strip whitespacet
         table = table.applymap(lambda x: x.strip() if isinstance(x, str) else x)
 
         date_columns = list(filter(lambda x: "date" in x.lower(), table.columns))
@@ -195,6 +193,8 @@ class DatabaseChain:
             except Exception as e:
                 logger.error(f"Error converting {column} to date: {e}")
                 table[column] = "2020-09-01"
+        table = table.fillna("")
+        table = table.astype(str)
         return table.to_dict("records")
 
     def process_options(self):
@@ -232,13 +232,14 @@ class DatabaseChain:
         self.output["prompt"] = self.prompt
 
         try:
-            self.output["content_json"] = self._process_content(self.output["content"])
+            self.output["content_json"] = self.process_content(self.output["content"])
         except Exception as e:
             logger.error(e)
             logger.error("self.output does not have content")
             self.output["content_json"] = []
-        if not self.is_select_multi_select_excluded:
-            self.process_options()
+        # TODO: fix this
+        # if not self.is_select_multi_select_excluded:
+        #     self.process_options()
         self.output.update({"js_objects": self.js_objects})
 
     def add_options(self):
@@ -266,7 +267,7 @@ class DatabaseChain:
         1. {Title}: Title
         {property_types}
         
-        Create 3 to 5 examples for the table with the columns listed above (The columns must match the ones listed above). Make it in csv format.
+        Create 5 examples for the table with the columns listed above (The columns must match the ones listed above). Make it in csv format but make the delimiter "|" instead of ",".
         
 {columns}
 """  # DONOT CHANGE THIS LINE

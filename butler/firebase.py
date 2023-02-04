@@ -4,6 +4,11 @@ from firebase_admin import credentials
 from firebase_admin import db
 from logger import logger
 
+
+class FirebaseError(Exception):
+    pass
+
+
 cred = credentials.Certificate(
     "butler/pybutler-firebase-adminsdk-e88bw-363bb47622.json"
 )
@@ -21,8 +26,12 @@ def pullFromFirebase(ref="database"):
 
 
 def pushToFirebase(jsonData: dict, ref="database"):
-    ref = db.reference("/" + ref)
-    return ref.push(jsonData)  # type: ignore
+    try:
+        ref = db.reference("/" + ref)
+        return ref.push(jsonData)  # type: ignore
+    except Exception as e:
+        logger.error(e)
+        raise FirebaseError("Could not push to Firebase")
 
 
 if __name__ == "__main__":

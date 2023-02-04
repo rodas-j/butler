@@ -12,3 +12,6 @@ build-docker:
 
 test-dev:
 	poetry run pytest -m "not prod"
+
+test-prod:
+	poetry run pytest -m "prod"
