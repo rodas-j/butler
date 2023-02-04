@@ -33,6 +33,9 @@ def beta_database():
     try:
 
         message = request.json["message"]
+
+        pushToFirebase({"prompt": message}, ref="database/prompts")
+
         output = DatabaseChain(prompt=message)
         res = generate_response(output)
 
