@@ -1,4 +1,5 @@
 import datetime
+import os
 from langchain.llms import OpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
@@ -92,7 +93,7 @@ def handleOptions(js_objects, filtered_tuples, database_properties_string, llm):
 def queryOpenAI(message: str):
     llm = OpenAI(
         temperature=0.7,
-        openai_api_key="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",
+        openai_api_key=os.environ.get("OPENAI_API_KEY"),
     )
 
     template = """{statement}

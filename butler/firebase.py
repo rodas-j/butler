@@ -10,10 +10,10 @@ class FirebaseError(Exception):
 
 
 cred = credentials.Certificate(
-    "butler/pybutler-firebase-adminsdk-e88bw-363bb47622.json"
+    "PATH_TO_JSON_FILE"
 )
 
-databaseURL = "https://pybutler-default-rtdb.firebaseio.com/"
+databaseURL = "PATH_TO_DATABASE"
 try:
     firebase_admin.initialize_app(cred, {"databaseURL": databaseURL})
 except Exception as e:
