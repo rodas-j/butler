@@ -17,10 +17,10 @@ We welcome contributions to the PyButler project. To get started, please take a 
 PyButler was created by Rodas Jateno.
 
 ## License
-This project is licensed under the [LICENSE HERE].
+This project is licensed under the GNU.
 
 ## Acknowledgments
-PyButler was inspired by [OTHER PROJECT HERE].
+PyButler was inspired by Langchain.
 
 ## Contact
 For questions or feedback, please reach out to [YOUR EMAIL HERE].
