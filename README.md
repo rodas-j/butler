@@ -23,7 +23,7 @@ This project is licensed under the GNU.
 PyButler was inspired by Langchain.
 
 ## Contact
-For questions or feedback, please reach out to [YOUR EMAIL HERE].
+For questions or feedback, please reach out to @WorkichoRodas on Twitter.
 
 ## Changelog
 * 0.1.0
