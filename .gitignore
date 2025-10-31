@@ -1,7 +1,51 @@
-logs/
-__pycache__
-dist
-app.log
-tests
-*.sh
+# Environment variables
 .env
+.env.local
+
+# Logs
+logs/
+*.log
+app.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.sh
+playground.py
+playground.ipynb
+
+# Poetry
+poetry.lock
+
+# Mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
